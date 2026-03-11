@@ -36,4 +36,4 @@ RUN python -m playwright install chromium && chmod -R 0755 /ms-playwright
 COPY . ${LAMBDA_TASK_ROOT}
 
 # lambda entrypoint
-CMD ["handler.lambda_handler"]
+CMD ["app.handler.lambda_handler"]

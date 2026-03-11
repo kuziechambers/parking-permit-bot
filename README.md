@@ -26,17 +26,17 @@ module is where you would modify the web elements if you want to use it with a d
 ```
 parking-permit-bot/
 ├── app/
-│   ├── __init__.py
-│   ├── handler.py          # Lambda entrypoint
-│   ├── bot.py              # PermitFormBot class (Playwright logic)
-│   ├── profiles.py         # VisitorProfile & VehicleProfile classes
-│   ├── profile_manager.py  # ProfileManager — loads & resolves profiles
-│   └── config.py           # Config loader
+│   ├── __main__.py
+│   ├── handler.py                  # Lambda entrypoint
+│   ├── app_runner.py               # App Runner logic
+│   ├── parking_registration.py     # Permit form logic via Playwright
+│   └── config.py                   # Hosts the AWS Lambda Powertools formatting
 ├── config/
-│   └── profiles.yaml       # Your visitor & vehicle configurations
+│   └── profiles_config.py          # Visitor & vehicle configurations
+├── .dockerignore
+├── .gitignore
 ├── Dockerfile
 ├── requirements.txt
-├── deploy.sh               # Build, push, and deploy script
 └── README.md
 ```
 

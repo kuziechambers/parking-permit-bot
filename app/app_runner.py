@@ -6,9 +6,9 @@ import os
 from botocore.exceptions import ClientError
 from twilio.rest import Client
 
-from constants import VALID_NAMES_MAP
-from parking_registration import RegistrationProcessor
-from utils import logger
+from config.profiles_config import VALID_NAMES_MAP
+from app.parking_registration import RegistrationProcessor
+from app.utils import logger
 
 
 class AppRunner:

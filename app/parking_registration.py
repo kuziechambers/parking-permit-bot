@@ -1,6 +1,6 @@
 import time
 from datetime import datetime, date
-from utils import logger
+from app.utils import logger
 import asyncio
 from playwright.async_api import async_playwright, Error as PWError
 from playwright.async_api import TimeoutError

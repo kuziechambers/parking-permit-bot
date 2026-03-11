@@ -1,5 +1,5 @@
-from app import AppRunner
-from utils import logger
+from app.app_runner import AppRunner
+from app.utils import logger
 
 
 def lambda_handler(event, context=None):

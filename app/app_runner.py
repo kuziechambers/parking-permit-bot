@@ -17,12 +17,12 @@ class AppRunner:
 
         self.event = event
         if not self.event.get("source"):
+            # event variables
             self.message_text = self.event.get("messageText")
             self.sender = self.event.get("sender")
             self.body_raw = self.event.get("body") or ""
             if self.event.get("isBase64Encoded"):
                 import base64
-
                 self.body_raw = base64.b64decode(self.body_raw).decode()
 
             # aws

@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "doozey-tf-state-bucket"
-    key = "tf-infra/terraform.tfstate"
+    key = "parking-permit-bot/terraform.tfstate"
     region = "us-east-1"
     dynamodb_table = "terraform-state-locking"
     encrypt = true

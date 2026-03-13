@@ -1,6 +1,6 @@
 """
 One-time script to seed the parking-permit-profiles DynamoDB table.
-Run with: python -m scripts.seed_profiles
+Run with: AWS_PROFILE=terraform-user python -m scripts.seed_profiles
 """
 
 import boto3
@@ -107,16 +107,16 @@ PROFILES = {
         "lastName": "Tashjian",
         "phoneNumber": "7743924720",
     },
-    "test": {
-        "licensePlate": "3F1010",
+    "kuzie": {
+        "licensePlate": "NXS4969",
         "state": "Texas",
-        "year": "2023",
-        "make": "Lexus",
-        "model": "RX",
-        "color": "Gray",
-        "firstName": "Lena",
+        "year": "2017",
+        "make": "Audi",
+        "model": "A4",
+        "color": "Black",
+        "firstName": "Kuzie",
         "lastName": "Chambers",
-        "phoneNumber": "9729482452",
+        "phoneNumber": "9402311617",
     },
 }
 

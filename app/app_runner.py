@@ -23,6 +23,7 @@ class AppRunner:
             self.body_raw = self.event.get("body") or ""
             if self.event.get("isBase64Encoded"):
                 import base64
+
                 self.body_raw = base64.b64decode(self.body_raw).decode()
 
             # aws

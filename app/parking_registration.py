@@ -35,7 +35,7 @@ class RegistrationProcessor:
         )
 
     async def get_browser(self):
-        # Single-writer init/reinit
+        # single-writer init/reinit
         async with _browser["lock"]:
             b = _browser["inst"]
             if b is None or not b.is_connected():
@@ -43,7 +43,7 @@ class RegistrationProcessor:
                 await self._launch_browser()
                 return _browser["inst"]
 
-            # Health-check with a throwaway context/page (fast)
+            # health-check with a throwaway context/page (fast)
             try:
                 ctx = await b.new_context()
                 p = await ctx.new_page()
@@ -199,7 +199,7 @@ class RegistrationProcessor:
             logger.info("screenshot created")
 
         finally:
-            # Only close the *context*, never the global browser
+            # only close the *context*, never the global browser
             await context.close()
 
         return image_name

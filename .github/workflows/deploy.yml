@@ -17,6 +17,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check for app/config changes
+        id: app_changes
+        run: |
+          if git diff --name-only HEAD~1 HEAD | grep -qE '^(app|config)/|^Dockerfile|^requirements.txt'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -34,28 +45,39 @@ jobs:
         working-directory: tf
         run: terraform init
 
-      - name: Terraform Apply (ECR)
+      - name: Terraform Plan
+        id: tf_plan
         working-directory: tf
-        run: terraform apply -target=aws_ecr_repository.parking_permit_bot_ecr -auto-approve
+        run: |
+          terraform plan -detailed-exitcode -out=tfplan 2>&1 || true
+          echo "exitcode=$?" >> $GITHUB_OUTPUT
+
+      - name: Terraform Apply
+        if: steps.tf_plan.outputs.exitcode == '2'
+        working-directory: tf
+        run: terraform apply -auto-approve tfplan
 
       - name: Login to ECR
+        if: steps.app_changes.outputs.changed == 'true'
         run: |
           aws ecr get-login-password --region $AWS_REGION | \
             docker login --username AWS --password-stdin \
             $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
       - name: Build and push Docker image
+        if: steps.app_changes.outputs.changed == 'true'
         run: |
           IMAGE_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
           docker build -t $IMAGE_URI .
           docker push $IMAGE_URI
 
-      - name: Terraform Apply (Lambda)
-        working-directory: tf
-        run: terraform apply -auto-approve
-
       - name: Update Lambda function code
+        if: steps.app_changes.outputs.changed == 'true'
         run: |
           aws lambda update-function-code \
             --function-name parking-permit-bot \
             --image-uri $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
+
+      - name: No changes detected
+        if: steps.tf_plan.outputs.exitcode != '2' && steps.app_changes.outputs.changed == 'false'
+        run: echo "No infrastructure or application changes detected. Skipping deploy."

@@ -5,8 +5,8 @@ An event-driven serverless automation bot that registers visitor parking permits
 ## How It Works
 
 1. A registered visitor texts the bot's Twilio number with their name
-2. The Lambda function receives the webhook, looks up the visitor's vehicle profile from DynamoDB
-3. A headless Chromium browser (via Playwright) fills out and submits the parking permit form
+2. The Lambda function receives the webhook and looks up the visitor's vehicle profile from DynamoDB
+3. A headless browser (via Playwright) fills out and submits the parking permit form
 4. A screenshot of the confirmation is uploaded to S3 and sent back to the visitor via SMS
 
 ## Architecture

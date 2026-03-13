@@ -82,6 +82,7 @@ resource "aws_iam_policy" "dynamodb_policy" {
         ]
         Resource = [
           aws_dynamodb_table.parking_permits_table.arn,
+          aws_dynamodb_table.parking_profiles_table.arn,
         ]
       }
     ]

@@ -6,7 +6,7 @@ import os
 from botocore.exceptions import ClientError
 from twilio.rest import Client
 
-from config.profiles_config import VALID_NAMES_MAP
+from config.profiles_config import get_profile
 from app.parking_registration import RegistrationProcessor
 from app.utils import logger
 
@@ -51,10 +51,7 @@ class AppRunner:
             if text_split[1] == "test":
                 is_test_mode = True
 
-        registration_profile = None
-        for name, car_values in VALID_NAMES_MAP.items():
-            if text_split[0] == name:
-                registration_profile = car_values
+        registration_profile = get_profile(text_split[0])
 
         if not registration_profile:
             logger.info("car profile not found")

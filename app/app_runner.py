@@ -28,7 +28,7 @@ class AppRunner:
 
             # aws
             self.s3_bucket_name = "parking-registration-screenshots"
-            self.dynamodb_table_name = "parking-permits"
+            self.dynamodb_table_name = "parking-registration-permits"
             self.dynamodb_resource = boto3.resource("dynamodb", region_name="us-east-1")
             self.dynamodb_client = boto3.client("dynamodb")
 

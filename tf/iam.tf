@@ -131,3 +131,32 @@ resource "aws_iam_role_policy_attachment" "lambda_s3_attachment" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = aws_iam_policy.s3_policy.arn
 }
+
+# execution policy (Secrets Manager)
+resource "aws_iam_policy" "secrets_policy" {
+  name = "AWSLambda${var.lambda_name_upper}SecretsPolicy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "SecretsManagerAccess"
+        Effect = "Allow"
+        Action = ["secretsmanager:GetSecretValue"]
+        Resource = [
+          "arn:aws:secretsmanager:us-east-1:${data.aws_caller_identity.current.account_id}:secret:parking-permit-bot/twilio*",
+        ]
+      }
+    ]
+  })
+
+  tags = {
+    Service   = "lambda"
+    ManagedBy = "terraform"
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_secrets_attachment" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.secrets_policy.arn
+}

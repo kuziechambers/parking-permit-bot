@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import boto3
+import json
 import time
 import os
 from botocore.exceptions import ClientError
@@ -33,8 +34,12 @@ class AppRunner:
             self.dynamodb_client = boto3.client("dynamodb")
 
             # twilio
+            secrets_client = boto3.client("secretsmanager", region_name="us-east-1")
+            twilio_secret = json.loads(
+                secrets_client.get_secret_value(SecretId="parking-permit-bot/twilio")["SecretString"]
+            )
             self.twilio_client = Client(
-                os.environ["TWILIO_ACCOUNT_SID"], os.environ["TWILIO_AUTH_TOKEN"]
+                twilio_secret["TWILIO_ACCOUNT_SID"], twilio_secret["TWILIO_AUTH_TOKEN"]
             )
             self.tz = ZoneInfo("America/Chicago")
 

@@ -20,7 +20,7 @@ SMS (Twilio) → Lambda Function URL → AppRunner → Playwright → Parking Po
 **Infrastructure provisioned with Terraform:**
 - AWS Lambda (container image via ECR)
 - Lambda Function URL (public HTTPS endpoint for Twilio webhook)
-- DynamoDB — two tables: visitor vehicle profiles and active permit records
+- DynamoDB: tables for visitor vehicle profiles and active permit records
 - S3 — confirmation screenshot storage
 - IAM roles and least-privilege policies for each AWS service
 - Secrets Manager — Twilio credentials stored and fetched at runtime
@@ -45,8 +45,8 @@ parking-permit-bot/
 ├── scripts/
 │   └── seed_profiles.py            # One-time DynamoDB seed script
 ├── tf/
-│   ├── main.tf                     # S3 backend + provider config
-│   ├── lambda.tf                   # Lambda function + ECR repository
+│   ├── main.tf                     # S3 backend
+│   ├── lambda.tf                   # Lambda function & ECR repository
 │   ├── dynamodb.tf                 # DynamoDB tables
 │   ├── iam.tf                      # IAM roles and policies
 │   ├── secrets.tf                  # Secrets Manager resources
@@ -75,13 +75,13 @@ parking-permit-bot/
 Infrastructure and code are deployed automatically on push to `main`. To deploy manually:
 
 ```bash
-# Provision infrastructure
+# provision infrastructure
 cd tf && terraform init && terraform apply
 
-# Seed visitor profiles (first time only)
+# seed visitor profiles (first time only)
 python -m scripts.seed_profiles
 
-# Set Twilio credentials in Secrets Manager (first time only)
+# set Twilio credentials in Secrets Manager (first time only)
 aws secretsmanager put-secret-value \
   --secret-id parking-permit-bot/twilio \
   --secret-string '{"TWILIO_ACCOUNT_SID":"...","TWILIO_AUTH_TOKEN":"..."}'

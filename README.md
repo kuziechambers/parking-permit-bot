@@ -21,12 +21,12 @@ SMS (Twilio) → Lambda Function URL → AppRunner → Playwright → Parking Po
 - **AWS Lambda** (container image via ECR)
 - **Lambda Function URL** (public HTTPS endpoint for Twilio webhook)
 - **DynamoDB:** tables for visitor vehicle profiles and active permit records
-- **S3** — confirmation screenshot storage
+- **S3:** confirmation screenshot storage
 - **IAM** roles and least-privilege policies for each AWS service
-- **Secrets Manager** — Twilio credentials stored and fetched at runtime
+- **Secrets Manager:** Twilio credentials stored and fetched at runtime
 - Remote **Terraform state** in S3 with DynamoDB state locking
 
-**CI/CD via GitHub Actions** — on every push to `main`:
+**CI/CD via GitHub Actions** on every push to `main`:
 1. `terraform apply` provisions any infrastructure changes
 2. Docker image is built and pushed to ECR
 3. Lambda is updated to the new image via `aws lambda update-function-code`
@@ -93,4 +93,4 @@ The Playwright automation is configured specifically for [parkingpermitsofameric
 
 ## Contact
 
-Kuzie Chambers — kuzie.chambers@gmail.com
+Kuzie Chambers -- kuzie.chambers@gmail.com

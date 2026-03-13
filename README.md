@@ -18,13 +18,13 @@ SMS (Twilio) → Lambda Function URL → AppRunner → Playwright → Parking Po
 ```
 
 **Infrastructure provisioned with Terraform:**
-- AWS Lambda (container image via ECR)
-- Lambda Function URL (public HTTPS endpoint for Twilio webhook)
-- DynamoDB: tables for visitor vehicle profiles and active permit records
-- S3 — confirmation screenshot storage
-- IAM roles and least-privilege policies for each AWS service
-- Secrets Manager — Twilio credentials stored and fetched at runtime
-- Remote Terraform state in S3 with DynamoDB state locking
+- **AWS Lambda** (container image via ECR)
+- **Lambda Function URL** (public HTTPS endpoint for Twilio webhook)
+- **DynamoDB:** tables for visitor vehicle profiles and active permit records
+- **S3** — confirmation screenshot storage
+- **IAM** roles and least-privilege policies for each AWS service
+- **Secrets Manager** — Twilio credentials stored and fetched at runtime
+- Remote **Terraform state** in S3 with DynamoDB state locking
 
 **CI/CD via GitHub Actions** — on every push to `main`:
 1. `terraform apply` provisions any infrastructure changes

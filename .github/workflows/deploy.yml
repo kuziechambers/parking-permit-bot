@@ -53,3 +53,9 @@ jobs:
       - name: Terraform Apply (Lambda)
         working-directory: tf
         run: terraform apply -auto-approve
+
+      - name: Update Lambda function code
+        run: |
+          aws lambda update-function-code \
+            --function-name parking-permit-bot \
+            --image-uri $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest

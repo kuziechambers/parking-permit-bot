@@ -49,8 +49,9 @@ jobs:
         id: tf_plan
         working-directory: tf
         run: |
-          terraform plan -detailed-exitcode -out=tfplan 2>&1 || true
+          terraform plan -detailed-exitcode -out=tfplan 2>&1
           echo "exitcode=$?" >> $GITHUB_OUTPUT
+        continue-on-error: true
 
       - name: Terraform Apply
         if: steps.tf_plan.outputs.exitcode == '2'

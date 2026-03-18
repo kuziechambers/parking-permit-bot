@@ -49,8 +49,10 @@ jobs:
         id: tf_plan
         working-directory: tf
         run: |
+          set +e
           terraform plan -detailed-exitcode -out=tfplan 2>&1
           TF_EXIT=$?
+          set -e
           echo "exitcode=$TF_EXIT" >> $GITHUB_OUTPUT
 
       - name: Terraform Apply

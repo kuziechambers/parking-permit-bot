@@ -52,8 +52,6 @@ jobs:
           terraform plan -detailed-exitcode -out=tfplan 2>&1
           TF_EXIT=$?
           echo "exitcode=$TF_EXIT" >> $GITHUB_OUTPUT
-          exit $TF_EXIT
-        continue-on-error: true
 
       - name: Terraform Apply
         if: steps.tf_plan.outputs.exitcode == '2'

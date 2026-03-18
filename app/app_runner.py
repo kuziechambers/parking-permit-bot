@@ -9,6 +9,7 @@ from twilio.rest import Client
 
 from config.profiles_config import get_profile
 from app.parking_registration import RegistrationProcessor
+from app.add_profile_handler import AddProfileHandler
 from app.utils import logger
 
 
@@ -47,6 +48,15 @@ class AppRunner:
         logger.info(f"event received: {self.event}")
         if self.event.get("source"):
             logger.info("lambda warmed")
+            return
+
+        # handle add profile command
+        add_handler = AddProfileHandler(
+            sender=self.sender,
+            message_text=self.message_text,
+            send_message_fn=lambda text, to: self.send_message(response_text=text, to=to),
+        )
+        if add_handler.handle():
             return
 
         # find car registration profile
